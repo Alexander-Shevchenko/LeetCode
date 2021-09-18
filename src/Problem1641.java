@@ -1,8 +1,5 @@
 // 1641.Count Sorted Vowel Strings
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Problem1641 {
 
     private static String[] vowels = {"a","e","i","o","u"};
@@ -11,19 +8,19 @@ public class Problem1641 {
         if (n <= 0)
             return 0;
 
-        List<Integer> counters = new ArrayList<>();
-        counters.add(vowels.length);
+        int[] multipliers = new int[vowels.length];
+        multipliers[0] = 1;
         while (--n > 0) {
-            List<Integer> curCounters = counters;
-            counters = new ArrayList<>();
-            for (Integer i: curCounters) {
-                do {
-                    counters.add(i);
-                } while (--i > 0);
+            for (int i = 1; i < vowels.length; i++) {
+                multipliers[i] += multipliers[i - 1];
             }
         }
 
-        return counters.stream().mapToInt(a -> a).sum();
+        int ret = 0;
+        for (int i = 0; i < vowels.length; i++) {
+            ret += (vowels.length - i) * multipliers[i];
+        }
+        return ret;
     }
 
     public static void main(String[] args) {
