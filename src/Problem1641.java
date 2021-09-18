@@ -3,7 +3,7 @@
 import java.util.ArrayList;
 import java.util.List;
 
-class Solution {
+public class Problem1641 {
 
     private static String[] vowels = {"a","e","i","o","u"};
 
@@ -25,13 +25,11 @@ class Solution {
 
         return counters.stream().mapToInt(a -> a).sum();
     }
-}
 
-public class Problem1641 {
     public static void main(String[] args) {
-        Solution countVowels = new Solution();
+        Problem1641 countVowels = new Problem1641();
         for (int i = 1; i < 34; i++) {
-            System.out.println("i = " + countVowels.countVowelStrings(i));
+            System.out.print(countVowels.countVowelStrings(i) + ",");
         }
     }
 }
