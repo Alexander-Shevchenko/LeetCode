@@ -4,7 +4,7 @@ import java.util.*;
 // 49. Group Anagrams
 // Given an array of strings strs, group the anagrams together. You can return the answer in any order.
 
-// Try 2 with custom HashCode method, not better than String's :( (12 ms, faster than 50.26%)
+// Try 2 with custom HashCode method, not better than String's :( (8 ms, faster than 61.36%)
 
 public class Problem49b {
     // Compares and Hashes strings per anagram equality
