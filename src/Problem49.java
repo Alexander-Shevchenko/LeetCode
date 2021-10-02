@@ -17,22 +17,22 @@ public class Problem49 {
             // Group anagrams
             Map<String, List<Integer>> groups = new HashMap<>();
             for (int i = 0; i < sortedStrs.size(); ++i) {
-                List<Integer> anogramIdxs = groups.get(sortedStrs.get(i));
-                if (anogramIdxs == null) {
-                    anogramIdxs = new ArrayList<>(1);
-                    anogramIdxs.add(i);
-                    groups.put(sortedStrs.get(i), anogramIdxs);
+                List<Integer> anagramIdxs = groups.get(sortedStrs.get(i));
+                if (anagramIdxs == null) {
+                    anagramIdxs = new ArrayList<>(1);
+                    anagramIdxs.add(i);
+                    groups.put(sortedStrs.get(i), anagramIdxs);
                 } else {
-                    anogramIdxs.add(i);
+                    anagramIdxs.add(i);
                 }
             }
 
             List<List<String>> ret = new ArrayList<>();
 
             // Form groups
-            for (List<Integer> anogramIdxs: groups.values()) {
-                List<String> group = new ArrayList<>(anogramIdxs.size());
-                for (Integer idx : anogramIdxs) {
+            for (List<Integer> anagramIdxs: groups.values()) {
+                List<String> group = new ArrayList<>(anagramIdxs.size());
+                for (Integer idx : anagramIdxs) {
                     group.add(strs[idx]);
                 }
                 ret.add(group);
