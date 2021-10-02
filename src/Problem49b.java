@@ -40,17 +40,16 @@ public class Problem49b {
                 return svHash;
 
             bHash = true;
-            char c = 0;
-            int byteToSet = 0;
+            int byteToSet;
 
-            for (int i = 0; i < strChars.length; ++i) {
-                byteToSet = maxIntByte - (strChars[i] - 'a');
+            for (char strChar : strChars) {
+                byteToSet = maxIntByte - (strChar - 'a');
                 byteToSet = 1 << byteToSet;
 
                 if ((svHash & byteToSet) == 0) {
                     svHash |= byteToSet;
                 } else { // Letter repetition, just add its code to make hash more unique
-                    svHash += strChars[i];
+                    svHash += strChar;
                 }
             }
             return svHash;
@@ -61,26 +60,20 @@ public class Problem49b {
         public List<List<String>> groupAnagrams(String[] strs) {
             // Group anagrams into HashMap
             Map<AnaString, List<String>> groups = new HashMap<>();
-            for (int i = 0; i < strs.length; ++i) {
-                AnaString anaStr = new AnaString(strs[i]);
+            for (String str : strs) {
+                AnaString anaStr = new AnaString(str);
                 List<String> anagrams = groups.get(anaStr);
                 if (anagrams == null) {
-                    anagrams = new ArrayList<String>(1);
-                    anagrams.add(strs[i]);
+                    anagrams = new ArrayList<>(1);
+                    anagrams.add(str);
                     groups.put(anaStr, anagrams);
                 } else {
-                    anagrams.add(strs[i]);
+                    anagrams.add(str);
                 }
             }
 
-            List<List<String>> ret = new ArrayList<>();
-
             // Form groups
-            for (List<String> anagrams: groups.values()) {
-                ret.add(anagrams);
-            }
-
-            return ret;
+            return new ArrayList<>(groups.values());
         }
     }
 

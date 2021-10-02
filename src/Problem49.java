@@ -9,7 +9,7 @@ public class Problem49 {
             // Sort all strings, so anagrams match
             List<String> sortedStrs = new ArrayList<>(strs.length);
             for (String s: strs) {
-                char charArray[] = s.toCharArray();
+                char[] charArray = s.toCharArray();
                 Arrays.sort(charArray);
                 sortedStrs.add(new String(charArray));
             }
