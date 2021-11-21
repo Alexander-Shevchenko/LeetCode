@@ -13,25 +13,39 @@ import java.util.HashMap;
 import java.util.List;
 
 public class Solution {
+    static class Counters {
+        void reset() {
+            used = 0;
+        }
+        void addAvailable() {
+            ++available;
+        }
+        boolean use() {
+            if (used == available) {
+                return false;
+            }
+            ++used;
+            return true;
+        }
+
+        int available = 0;
+        int used = 0;
+    }
+
     // words and their count ([0] - in words, [1] - currently used)
-    HashMap<String, ArrayList<Integer>> wordToCount = new HashMap<>();
+    HashMap<String, Counters> wordToCount = new HashMap<>();
 
     private void initWordIndices(String[] words) {
         int i = 0;
         for (String word : words) {
-            ArrayList<Integer> count = wordToCount.computeIfAbsent(word, k -> new ArrayList<>(2));
-            if (count.isEmpty())
-                count.add(1);
-            else
-                count.set(0, count.get(0) + 1);
+            Counters count = wordToCount.computeIfAbsent(word, k -> new Counters());
+            count.addAvailable();
         }
     }
 
     private void resetUsedCounts() {
-        for (ArrayList<Integer> count : wordToCount.values()) {
-            if (count.size() == 2) {
-                count.set(1, 0);
-            }
+        for (Counters count : wordToCount.values()) {
+            count.reset();
         }
     }
 
@@ -50,12 +64,12 @@ public class Solution {
         for (int i = 0; i <= s.length() - allWordsLen; ++i) {
 
             String startStr = s.substring(i, i + wordLen);
-            List<Integer> count = wordToCount.get(startStr);
+            Counters count = wordToCount.get(startStr);
             if (count == null) {
                 continue;
             }
 
-            // Shortcut for 1 char len words
+            // Shortcut for 1 word searches
             if (words.length == 1) {
                 ret.add(i);
                 continue;
@@ -66,14 +80,10 @@ public class Solution {
                 resetUsedCounts();
             }
 
-            if (count.size() == 1) {
-                count.add(1);
-            } else {
-                count.set(1, 1);
-            }
+            count.use();
             bCountsClean = false;
 
-            int wordsFound = 1;
+            int wordsUsed = 1;
             for (int j = i + wordLen; j <= s.length() - wordLen; j += wordLen) {
                 startStr = s.substring(j, j + wordLen);
                 count = wordToCount.get(startStr);
@@ -81,16 +91,10 @@ public class Solution {
                     break; // not used all words, no luck this time
                 }
 
-                if (count.size() == 1) { // Not inited yet
-                    count.add(1);
-                } else {
-                    if (count.get(0).equals(count.get(1))) { // Used too many occurrences of this word already
-                        break;
-                    }
-                    count.set(1, count.get(1) + 1);
-                }
+                if (!count.use()) // Used too many occurrences of this word already
+                    break;
 
-                if (++wordsFound == words.length) {
+                if (++wordsUsed == words.length) {
                     ret.add(i);
                     break;
                 }
